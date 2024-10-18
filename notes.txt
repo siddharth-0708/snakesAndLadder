@@ -1,0 +1,27 @@
+1. Difference between React and React-DOM?
+A) React has the core libraries like useRef, useState, components, virtualDOM. And React-DOM is the bridge between react and real DOM. It renders components to the DOM via ReactDOM.render().
+React = logic behind the components and state.
+React-DOM = rendering those components to the browser.
+
+2. I have installed react using NPM i and i am trying to access it using import { useEffect } from "./node_modules/react"; from index.js. But i am getting react/:1 Failed to load module script: Expected a JavaScript module script but the server responded with a MIME type of "text/html". Strict MIME type checking is enforced for module scripts per HTML spec. error. Why this doesn't work
+
+A) Node.js modules (node_modules) are meant for development: They are not served as static files in the browser. They need to be bundled using tools like Webpack, Parcel, or Vite.
+MIME Type Mismatch: The browser expects index.js to be a JavaScript module, but because the server is not configured to handle the node modules correctly, it's likely giving MIME type error.
+But same thing if you do with normal dummy.js file, and export a function then it works because that is a normal js file. Node modules are related to node js and that will use require etc that doesn't run in the browser.
+
+3. const path = require('path');  , I dont see any path module in node modules. How it works?
+A) The path module is a core module in Node.js, which means it comes pre-installed with Node.js and is not located in the node_modules directory. Core modules are built directly into Node.js, so they do not need to be installed via npm or included in your node_modules folder.
+
+4. what is a transpiler?
+A) A transpiler (short for translator and compiler) is a type of compiler that transforms source code from one programming language to another. However, unlike a typical compiler that converts high-level code into lower-level code (e.g., assembly or machine code), a transpiler converts code from one high-level language to another high-level language, typically maintaining a similar level of abstraction.
+Babel converts modern JavaScript (ES6/ES7+) into older versions (like ES5) to ensure compatibility with older browsers that don't support the latest features.
+
+5. Babel loader, Babel core and presets difference?
+A) - babel-loader: This is the Webpack loader that tells Webpack to use Babel to process your JavaScript files. 
+   - @babel/core provides the foundational functionality for Babel. This includes the ability to parse JavaScript code, apply transformations based on specified rules (which are typically
+     provided by plugins and presets), and gene
+     
+     rate the transformed code.
+   - @babel/core provides the core functionalities for parsing, transforming, and generating JavaScript code, but it needs presets (like @babel/preset-env) to know what transformations to apply.
+   - Presets contain predefined sets of rules (plugins) that guide Babel on how to transform specific features of JavaScript or other syntaxes (like JSX in the case of React).
+   - Using @babel/core alone wouldn't apply any transformations, while using presets without @babel/core wouldn't perform the actual processing of the code.
