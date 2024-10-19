@@ -42,11 +42,6 @@ module.exports = {
         },
       },
       {
-        test: /\.css$/i,      // Apply this rule to .css files
-        exclude: /\.module\.css$/i, // Exclude CSS Modules files
-        use: ['style-loader', 'css-loader'],  // Regular CSS loader
-      },
-      {
         test: /\.css$/i,  // Target only .module.css files
         use: [
           'style-loader',          // Injects styles into the DOM
