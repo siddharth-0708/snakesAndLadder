@@ -25,3 +25,34 @@ A) - babel-loader: This is the Webpack loader that tells Webpack to use Babel to
    - @babel/core provides the core functionalities for parsing, transforming, and generating JavaScript code, but it needs presets (like @babel/preset-env) to know what transformations to apply.
    - Presets contain predefined sets of rules (plugins) that guide Babel on how to transform specific features of JavaScript or other syntaxes (like JSX in the case of React).
    - Using @babel/core alone wouldn't apply any transformations, while using presets without @babel/core wouldn't perform the actual processing of the code.
+
+6. What does style loader and css-loader do and why css loader is inside style loader?
+A) The style-loader is responsible for injecting CSS styles directly into the DOM during runtime. It does this by creating <style> tags in the <head> section of your HTML document and then adding the CSS rules to those tags. This allows your styles to be applied to your HTML elements while the application is running.
+
+   - Purpose: Dynamically injects CSS into the DOM during runtime. (it can be seen in bundle.js after build files are generated).
+   - Behavior: It collects all styles from your JavaScript modules and appends them to the document, making sure the styles take effect immediately without needing an external stylesheet.
+
+   The css-loader is responsible for interpreting @import and url() in your CSS files and resolving them. Additionally, it can convert your CSS into JavaScript modules. This means that when Webpack processes a CSS file, css-loader parses the file to understand how styles should be bundled and makes it possible to import CSS into JavaScript files.
+
+  - Purpose: Loads and parses CSS files into JavaScript so they can be bundled.
+  - Behavior: Turns the CSS into a JavaScript representation (an array or object of strings), which can be further processed by Webpack.
+
+  why CSS is inside style loader:
+  It’s important to understand that Webpack processes loaders from right to left (or bottom to top if you're looking at the array).
+
+  Here's the flow:
+  css-loader (first step):
+
+  css-loader reads the CSS file, resolves @import and url() paths, and turns the CSS into a JavaScript module that exports the styles as a string.
+  Example: import styles from './styles.css' now provides a string that represents the CSS in the styles variable.
+  style-loader (second step):
+
+  After css-loader turns the CSS into JavaScript, style-loader takes that JS-generated string of CSS rules and dynamically injects it into the DOM as a <style> tag.
+  This ensures that when your app runs, the CSS is applied immediately, without needing to load a separate .css file from a server.
+
+  In production, instead of using style-loader, you typically use the **MiniCssExtractPlugin**. This plugin extracts your CSS into separate .css files and links them in your HTML. This improves performance because:
+
+  The CSS is loaded as a separate file (instead of being injected into the DOM).
+  The browser can cache the CSS file independently, improving load times for subsequent visits.
+
+  The css file is created and fetched from the server. For best use, we should use combination of external CSS and internal CSS files.

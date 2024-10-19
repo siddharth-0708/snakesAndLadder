@@ -1,6 +1,7 @@
 // webpack.config.js
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin'); // Import the plugin
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { runtime } = require('webpack');
 
 module.exports = {
@@ -24,6 +25,9 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './index.html', // HTML file to inject your bundle
     }),
+    new MiniCssExtractPlugin({
+      filename: '[name].[contenthash].css', // Output CSS with content hash for cache busting
+    }),
   ],
 
   module: {
@@ -44,7 +48,8 @@ module.exports = {
       {
         test: /\.css$/i,  // Target only .module.css files
         use: [
-          'style-loader',          // Injects styles into the DOM
+          // 'style-loader',          // Injects styles into the DOM
+          MiniCssExtractPlugin.loader,
           {
             loader: 'css-loader',
             options: {
