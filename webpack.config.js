@@ -7,7 +7,7 @@ const { runtime } = require('webpack');
 module.exports = {
   entry: './index.js', // The entry point of your application
   output: {
-    filename: 'bundle.js', // The name of the output bundle
+    filename: 'bundle.[contenthash].js', // Adds a content hash to JS file
     path: path.resolve(__dirname, 'dist'), // The output folder
   },
   devServer: {
@@ -15,6 +15,10 @@ module.exports = {
       directory: path.join(__dirname, './'),  // directory to serve
     },    compress: true,                            // enable gzip compression
     port: 8080,
+    headers: {
+      // Set caching headers to allow caching
+      'Cache-Control': 'max-age=31536000, immutable', // Cache for 1 year //CHEKKKKKKKKKKKK THISSSSSSSSSSSSSSSSSSSSSSSSS
+    },
     hot: true,                                 // port number to run the server
     devMiddleware: {
       writeToDisk: true,  // New way to write files to disk
@@ -47,8 +51,23 @@ module.exports = {
       },
       {
         test: /\.css$/i,  // Target only .module.css files
+        include: path.resolve(__dirname, './src/board/'), // Target component CSS
         use: [
-          // 'style-loader',          // Injects styles into the DOM
+          'style-loader',          // Injects styles into the DOM
+          {
+            loader: 'css-loader',
+            options: {
+              modules: {
+                namedExport: false
+              },
+            },
+          },
+        ],
+      },
+      {
+        test: /\.css$/i,  // Target only .module.css files
+        exclude: path.resolve(__dirname, './src/board/'), // Target component CSS
+        use: [
           MiniCssExtractPlugin.loader,
           {
             loader: 'css-loader',
@@ -59,6 +78,21 @@ module.exports = {
             },
           },
         ],
+      },
+      // {
+      //   test: /\.(png|jpe?g|gif|svg)$/i,  // Matches image files
+      //   type: 'asset/resource',  // Use asset/resource for images
+      //   generator: {
+      //     filename: 'assets/images/[name].[hash][ext]',  // Output location and naming
+      //   },
+      // },
+      {
+        // Font files
+        test: /\.(woff|woff2|eot|ttf|otf)$/i,  // Match font file types
+        type: 'asset/resource',  // Use Webpack 5 asset module
+        generator: {
+          filename: 'assets/fonts/[name].[hash][ext]',  // Output folder and naming convention
+        },
       },
     ],
   },

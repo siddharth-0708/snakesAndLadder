@@ -56,3 +56,56 @@ A) The style-loader is responsible for injecting CSS styles directly into the DO
   The browser can cache the CSS file independently, improving load times for subsequent visits.
 
   The css file is created and fetched from the server. For best use, we should use combination of external CSS and internal CSS files.
+
+  7. What is your observations with assets/CSS webpack config?
+  A) CASE1: When you dont write asset/images config, and just write CSS config to import the CSS file
+      - You can't import an image in jsx/tsx and use that image in the js code.
+      - no user defined asset folder will be created and its path will be injected in the CSS, js generated.
+      - Here webpack by default will convert the URL mentioned in asset to images with hash code and those images will be placed directly in the dist with no sub folder or sub-name before hash code.
+      - Assets are always regenerated in the dist and your asset sub folder does'nt matter in the final build. It is just for easy development for developers.
+   B) CASE2: When you write asset/images in config
+      - we can import an image in jsx/tsx and use that image in the js code. The return from url (import myImage from './assets/myImage.js) gives the URL of the final build path that is from the dist folder.
+      - webpack will convert the URL mentioned in asset to images with hash code and sub name of the image and those images will be placed in the dist with the given sub folder name in the webpack config.
+
+  8) How to include some components in external CSS and others injected in the bundle.js in head section dynamically?
+  A) write below configurations:
+     The reason you need to use the exclude option in the second rule is to prevent conflicts and ensure that Webpack correctly applies the intended loader to the appropriate CSS files.
+      {
+        test: /\.css$/i,  // Target only .module.css files
+        include: path.resolve(__dirname, './src/board/'), // Target component CSS
+        use: [
+          'style-loader',          // Injects styles into the DOM
+          {
+            loader: 'css-loader',
+            options: {
+              modules: {
+                namedExport: false
+              },
+            },
+          },
+        ],
+      },
+      {
+        test: /\.css$/i,  // Target only .module.css files
+        exclude: path.resolve(__dirname, './src/board/'), // Target component CSS
+        use: [
+          MiniCssExtractPlugin.loader,
+          {
+            loader: 'css-loader',
+            options: {
+              modules: {
+                namedExport: false
+              },
+            },
+          },
+        ],
+      },
+
+9) Why we need hash on assets, js, css, and is hash not needd for HTML ( cache-busting) ?
+   A) Cache-busting is a technique used to force the browser to load the latest version of an asset, rather than relying on an older, cached version. Webpack’s hashing feature helps with cache-busting by appending a unique hash to filenames whenever the file content changes.
+
+   When main.abc123.css is cached, the browser will use it for subsequent page loads. However, after you make a change in the CSS file, Webpack rebuilds and generates main.def456.css with a new hash. The browser detects the new filename and loads it, ensuring users see the latest styles. 
+
+   If you make changes to main.css and redeploy the site (if no hash code), the browser might still use the old cached version of main.css, since there’s no indicator (like a new filename) to tell it that the file has been updated. Users would likely continue to see the outdated styles until the browser’s cache expires, which can take days or weeks, depending on the browser settings and server headers.
+
+   The index.html file can still be cached by the browser, but generally, caching strategies are set up to make sure index.html is refreshed more frequently than other assets, like JavaScript and CSS, because it acts as the entry point to the application.
