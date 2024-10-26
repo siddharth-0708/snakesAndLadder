@@ -63,9 +63,11 @@ A) The style-loader is responsible for injecting CSS styles directly into the DO
       - no user defined asset folder will be created and its path will be injected in the CSS, js generated.
       - Here webpack by default will convert the URL mentioned in asset to images with hash code and those images will be placed directly in the dist with no sub folder or sub-name before hash code.
       - Assets are always regenerated in the dist and your asset sub folder does'nt matter in the final build. It is just for easy development for developers.
+      - if you don't explicitly configure asset handling (for images and other static files) in Webpack, it will still process those files and output them to the dist folder with hashed filenames. However, this default behavior has implications for preloading these assets (we can't preload).
    B) CASE2: When you write asset/images in config
       - we can import an image in jsx/tsx and use that image in the js code. The return from url (import myImage from './assets/myImage.js) gives the URL of the final build path that is from the dist folder.
       - webpack will convert the URL mentioned in asset to images with hash code and sub name of the image and those images will be placed in the dist with the given sub folder name in the webpack config.
+      - when you use a preload file that imports assets, Webpack ensures that the imports are treated consistently across your application. If you import an asset in the preload file and then also import it in a component, both imports will refer to the same asset file, including the generated hashed URL, which is consistent due to Webpack's deduplication and caching mechanisms.
 
   8) How to include some components in external CSS and others injected in the bundle.js in head section dynamically?
   A) write below configurations:
@@ -109,3 +111,6 @@ A) The style-loader is responsible for injecting CSS styles directly into the DO
    If you make changes to main.css and redeploy the site (if no hash code), the browser might still use the old cached version of main.css, since there’s no indicator (like a new filename) to tell it that the file has been updated. Users would likely continue to see the outdated styles until the browser’s cache expires, which can take days or weeks, depending on the browser settings and server headers.
 
    The index.html file can still be cached by the browser, but generally, caching strategies are set up to make sure index.html is refreshed more frequently than other assets, like JavaScript and CSS, because it acts as the entry point to the application.
+
+10) what happens if you keep a folder with images that is not used for any component, does webpack even convert that? and how do we preload it (using '../assets/)?
+A) If you have an image folder that contains files not imported or referenced by any components or files in your project, Webpack will not process or include these files in the final build by default. Webpack only bundles assets that are directly or indirectly referenced in your code.   
