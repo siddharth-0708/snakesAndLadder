@@ -1,6 +1,8 @@
 import Board from "./src/board/Board";
 import Snakes from "./src/snakes/Snakes";
 import Ladder from "./src/ladder/Ladder";
+import { resources } from "./resources";
+import { useEffect, useState } from "react";
 
 const createPreloadLinkElement = (resource) => {
     const link = document.createElement('link');
@@ -17,15 +19,24 @@ const schedulePreload = (resources) =>{
         document.head.appendChild(link);
     });
 }
+schedulePreload(resources);
+
 function FirstComponent(){
-    return (
+    const [data, setData] = useState(false);
+
+    useEffect(()=>{
+        setTimeout(() => {
+            setData(true);
+        }, 3000);
+    },[])
+    return data ? (
         <div>
             <h1>Hello World!</h1>
             <Ladder></Ladder>
             <Board></Board>
             <Snakes></Snakes>
         </div>
-    )
+    ) : null;
 }
 export default FirstComponent;
 

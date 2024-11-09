@@ -17,7 +17,10 @@ module.exports = {
     port: 8080,
     headers: {
       // Set caching headers to allow caching
-      'Cache-Control': 'max-age=31536000, immutable', // Cache for 1 year //CHEKKKKKKKKKKKK THISSSSSSSSSSSSSSSSSSSSSSSSS
+      //'Cache-Control': 'max-age=31536000, immutable', // Cache for 1 year //CHEKKKKKKKKKKKK THISSSSSSSSSSSSSSSSSSSSSSSSS
+      'Cache-Control': 'max-age=2, must-revalidate',
+      'Last-Modified': new Date().toUTCString(),      // Set Last-Modified header //CHEKKKKKKKKKKKK THISSSSSSSSSSSSSSSSSSSSSSSSS to get 304
+      
     },
     hot: true,                                 // port number to run the server
     devMiddleware: {
@@ -79,13 +82,13 @@ module.exports = {
           },
         ],
       },
-      // {
-      //   test: /\.(png|jpe?g|gif|svg)$/i,  // Matches image files
-      //   type: 'asset/resource',  // Use asset/resource for images
-      //   generator: {
-      //     filename: 'assets/images/[name].[hash][ext]',  // Output location and naming
-      //   },
-      // },
+      {
+        test: /\.(png|jpe?g|gif|svg)$/i,  // Matches image files
+        type: 'asset/resource',  // Use asset/resource for images
+        generator: {
+          filename: 'assets/images/[name].[hash][ext]',  // Output location and naming
+        },
+      },
       {
         // Font files
         test: /\.(woff|woff2|eot|ttf|otf)$/i,  // Match font file types
