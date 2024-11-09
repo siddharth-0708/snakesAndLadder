@@ -76,5 +76,5 @@ fetchPlayerCountryPromise('markram').then((data)=> fetchProfileDataPromise(data)
 let dataPromise = [fetchPlayerCountryPromise(), fetchProfileDataPromise(), fetchDOBdataPromise()];
 
 Promise.all(dataPromise).then((data)=> {
-    console.log("All promises data ", data);
+    console.log("All promises data  ", data);
 })
