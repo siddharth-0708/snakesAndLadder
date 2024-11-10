@@ -113,4 +113,10 @@ A) The style-loader is responsible for injecting CSS styles directly into the DO
    The index.html file can still be cached by the browser, but generally, caching strategies are set up to make sure index.html is refreshed more frequently than other assets, like JavaScript and CSS, because it acts as the entry point to the application.
 
 10) what happens if you keep a folder with images that is not used for any component, does webpack even convert that? and how do we preload it (using '../assets/)?
-A) If you have an image folder that contains files not imported or referenced by any components or files in your project, Webpack will not process or include these files in the final build by default. Webpack only bundles assets that are directly or indirectly referenced in your code.   
+A) If you have an image folder that contains files not imported or referenced by any components or files in your project, Webpack will not process or include these files in the final build by default. Webpack only bundles assets that are directly or indirectly referenced in your code.
+
+11. Cache-control:
+A) 1. re-validate max-age:3600 - after 3600 seconds, revalidate with server if the asset has been modified. This revalidation happens with help of last-modified header of that asset. If asset do not change then we get 304 status code (asset taken fron cache and revalidated) else 200.
+   2. no-cahe max-age: 3600 - This means that on every asset call, it will revalidate with server. Here max-age: 3600 will not matter because it will always revalidate.
+   3. Immutable max-age:3600 - max-age doesnt matter because here asset will always remain same and from the cache once stored. (for some reason it is coming as 304 after max-age)
+   4. no-store - never store in cache.

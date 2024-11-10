@@ -8,6 +8,11 @@ import { useEffect, useState } from "react";
 
 function FirstComponent() {
     const [data, setData] = useState(false);
+    const [percentage, setPercentage] = useState(0);
+
+    const calculatePercentage = () => {
+        return ((percentage / resources.length) * 100) + '%';
+    }
 
     const createPreloadLinkElement = (resource) => {
         const link = document.createElement('link');
@@ -19,11 +24,16 @@ function FirstComponent() {
         return link;
     }
     const schedulePreload = (resources) => {
-        const promises = resources.map((resource) => {
+        const promises = resources.map((resource,index) => {
             return new Promise((resolve, reject) => {
                 const link = createPreloadLinkElement(resource);
                 document.head.appendChild(link);
-                link.onload = () => resolve();
+                link.onload = () => {
+                    setTimeout(() => {
+                        setPercentage((data)=> data + 1);
+                        resolve();    
+                    }, index * 1000);
+                } 
                 link.onerror = () => reject();
             })
         });
@@ -31,22 +41,27 @@ function FirstComponent() {
     }
     useEffect(()=>{
         schedulePreload(resources).then(() => {
-            setTimeout(() => {
+            // setTimeout(() => {
                 setData(true);
-            }, 3000);
+            // }, 3000);
         }).catch(() => {
             setData(false)
         });
     },[])
 
-    return data ? (
-        <div>
-            <h1>Hello World!</h1>
-            <Ladder></Ladder>
-            <Board></Board>
-            <Snakes></Snakes>
-        </div>
-    ) : null;
+    return(
+        <>
+        <div> loading........ {calculatePercentage()}</div>
+        {data ? (
+            <div>
+                <h1>Hello World!</h1>
+                <Ladder></Ladder>
+                <Board></Board>
+                <Snakes></Snakes>
+            </div>
+        ) : null}
+        </>
+    ) 
 }
 export default FirstComponent;
 
