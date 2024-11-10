@@ -4,31 +4,41 @@ import Ladder from "./src/ladder/Ladder";
 import { resources } from "./resources";
 import { useEffect, useState } from "react";
 
-const createPreloadLinkElement = (resource) => {
-    const link = document.createElement('link');
-    link.as = resource.kind;
-    link.crossOrigin = '';
-    link.href = resource.url;
-    link.rel ='preload';
 
-    return link;
-}
-const schedulePreload = (resources) =>{
-    resources.forEach((resource) => {
-        const link = createPreloadLinkElement(resource);
-        document.head.appendChild(link);
-    });
-}
-schedulePreload(resources);
 
-function FirstComponent(){
+function FirstComponent() {
     const [data, setData] = useState(false);
 
+    const createPreloadLinkElement = (resource) => {
+        const link = document.createElement('link');
+        link.as = resource.kind;
+        link.crossOrigin = '';
+        link.href = resource.url;
+        link.rel = 'preload';
+
+        return link;
+    }
+    const schedulePreload = (resources) => {
+        const promises = resources.map((resource) => {
+            return new Promise((resolve, reject) => {
+                const link = createPreloadLinkElement(resource);
+                document.head.appendChild(link);
+                link.onload = () => resolve();
+                link.onerror = () => reject();
+            })
+        });
+        return Promise.all(promises);
+    }
     useEffect(()=>{
-        setTimeout(() => {
-            setData(true);
-        }, 3000);
+        schedulePreload(resources).then(() => {
+            setTimeout(() => {
+                setData(true);
+            }, 3000);
+        }).catch(() => {
+            setData(false)
+        });
     },[])
+
     return data ? (
         <div>
             <h1>Hello World!</h1>
