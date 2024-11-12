@@ -5,5 +5,5 @@ import snake from './src/snakes/assets/snakes.jpeg';
 export const resources = [
     {url: board, kind: 'image'},
     {url: ladder, kind: 'image'},
-    {url: snake, kind: 'image'}
+    {url: snake, kind: 'image'},
 ]

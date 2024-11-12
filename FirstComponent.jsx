@@ -12,7 +12,7 @@ function FirstComponent() {
     const [percentage, setPercentage] = useState(0);
 
     const calculatePercentage = () => {
-        return ((percentage / resources.length) * 100) + '%';
+        return Math.round(((percentage / resources.length) * 100)) + '%';
     }
 
     const createPreloadLinkElement = (resource) => {
@@ -42,9 +42,9 @@ function FirstComponent() {
     }
     useEffect(()=>{
         schedulePreload(resources).then(() => {
-            // setTimeout(() => {
+            setTimeout(() => {
                 setData(true);
-            // }, 3000);
+            }, 500);
         }).catch(() => {
             setData(false)
         });
@@ -52,23 +52,16 @@ function FirstComponent() {
 
     return(
         <>
-        <div> loading........ {calculatePercentage()}</div>
+        {!data && <PreLoader percentage = {calculatePercentage()}></PreLoader>}
         {data ? (
             <div>
                 <h1>Hello World!</h1>
                 <Ladder></Ladder>
                 <Board></Board>
                 <Snakes></Snakes>
-                <PreLoader percentage = {calculatePercentage()}></PreLoader>
             </div>
         ) : null}
         </>
     ) 
 }
 export default FirstComponent;
-
-//Resources
-
-//1. import winResultImage from '../components/winresult/assets/winlabel/texture.png' what are webpack configuarations for this? why we use?
-//WIN_MESSAGE : {url: winresultImage, priority: '2 or 3 or block', kind: 'image or font'}
-//2. DATA: {url: './assets/winIcons/data.png', priority: '2 or 3 or block', kind: 'image or font'}
