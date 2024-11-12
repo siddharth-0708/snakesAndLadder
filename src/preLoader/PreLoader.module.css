@@ -1,0 +1,14 @@
+.preloaderContainer{
+    width: 300px;
+    height: 10px;
+    border-radius: 4px;
+    background-color: black;
+    color: red;
+    --value: 50%;
+}
+.preloaderFill{
+    width: var(--value);
+    height: 100%;
+    background-color: green;
+    border-radius: 4px;
+}

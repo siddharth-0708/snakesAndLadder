@@ -1,6 +1,7 @@
 import Board from "./src/board/Board";
 import Snakes from "./src/snakes/Snakes";
 import Ladder from "./src/ladder/Ladder";
+import PreLoader from "./src/preLoader/PreLoader";
 import { resources } from "./resources";
 import { useEffect, useState } from "react";
 
@@ -58,6 +59,7 @@ function FirstComponent() {
                 <Ladder></Ladder>
                 <Board></Board>
                 <Snakes></Snakes>
+                <PreLoader percentage = {calculatePercentage()}></PreLoader>
             </div>
         ) : null}
         </>
