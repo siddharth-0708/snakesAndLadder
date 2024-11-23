@@ -6,7 +6,6 @@ import { resources } from "./resources";
 import { useEffect, useState } from "react";
 
 
-
 function FirstComponent() {
     const [data, setData] = useState(false);
     const [percentage, setPercentage] = useState(0);

@@ -120,3 +120,9 @@ A) 1. re-validate max-age:3600 - after 3600 seconds, revalidate with server if t
    2. no-cahe max-age: 3600 - This means that on every asset call, it will revalidate with server. Here max-age: 3600 will not matter because it will always revalidate.
    3. Immutable max-age:3600 - max-age doesnt matter because here asset will always remain same and from the cache once stored. (for some reason it is coming as 304 after max-age)
    4. no-store - never store in cache.
+
+12. React-redux-deep-dive:
+A) https://chatgpt.com/share/67418f21-a768-8000-928b-6febe230b923
+
+13. What is problem with combineReducers?
+A) It will loop everytime for all the declared reducers for one action. Since combine reducer just returns one root reducer and the dispatch will loop through all the reducers and check the condition.
