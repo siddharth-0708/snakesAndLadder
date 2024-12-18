@@ -2,6 +2,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin'); // Import the plugin
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const { runtime } = require('webpack');
 
 module.exports = {
@@ -35,10 +36,26 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: '[name].[contenthash].css', // Output CSS with content hash for cache busting
     }),
+    new ForkTsCheckerWebpackPlugin(), // Add this plugin
   ],
 
   module: {
     rules: [
+      {
+        //This is the initiator of tsconfig file.
+        test: /\.tsx?$/, // Target .ts and .tsx files
+        exclude: /node_modules/, // Exclude the node_modules directory
+        use: {
+          loader: 'babel-loader', // Use babel-loader for transpilation
+          options: {
+            presets: [
+              ['@babel/preset-env'], 
+              ['@babel/preset-react', {runtime: 'automatic'}],
+              ['@babel/preset-typescript'],
+            ], // Include presets
+          },
+        },
+      },
       {
         test: /\.(js|jsx)$/,  // Ensure both JS and JSX files are processed
         exclude: /node_modules/, // Exclude the node_modules directory
@@ -100,7 +117,7 @@ module.exports = {
     ],
   },
   resolve: {
-    extensions: ['.js', '.jsx']  // Support JSX file extensions
+    extensions: ['.js', '.jsx', '.tsx']  // Support JSX file extensions
   },
 };
 

@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "target": "ES6",                    // Specify ECMAScript target version
+    "module": "ESNext",                 // Use ESNext module resolution
+    "lib": ["DOM", "ES6", "DOM.Iterable", "ScriptHost"], // Include libraries for DOM and ES features
+    "allowJs": true,                    // Allow JavaScript files (optional)
+    "skipLibCheck": true,               // Skip type checking of declaration files
+    "esModuleInterop": true,            // Enable interop between CommonJS and ES Modules
+    "forceConsistentCasingInFileNames": true, // Enforce consistent casing in import paths
+    "strict": true,                     // Enable strict type-checking
+    "moduleResolution": "node",         // Module resolution strategy
+    "resolveJsonModule": true,          // Allow importing JSON files
+    "isolatedModules": true,            // Required for React (Next.js) projects
+    "jsx": "react-jsx"                  // Use React JSX syntax
+  },
+  "include": ["src",
+  "global.d.ts"  // Explicitly include the global declaration file
+  ],                   // Include your source files
+  "exclude": ["node_modules", "**/*.spec.ts"]
+}

@@ -126,3 +126,60 @@ A) https://chatgpt.com/share/67418f21-a768-8000-928b-6febe230b923
 
 13. What is problem with combineReducers?
 A) It will loop everytime for all the declared reducers for one action. Since combine reducer just returns one root reducer and the dispatch will loop through all the reducers and check the condition.
+
+14: babel-loader, and its presets
+A) Presets in Your Code
+    1. @babel/preset-env
+    Purpose: It translates modern JavaScript (ES6+ features like let, const, arrow functions, classes, etc.) into a version of JavaScript that can run on older browsers or environments.
+    Example: If you use modern JavaScript:
+    javascript
+    Copy code
+    const greet = () => console.log("Hello, world!");
+    On older browsers that don’t support arrow functions, @babel/preset-env will transform it into:
+    javascript
+    Copy code
+    var greet = function() {
+      console.log("Hello, world!");
+    };
+    2. @babel/preset-react
+    Purpose: This preset transforms JSX (React's syntax) into standard JavaScript code.
+
+    Example: If you write JSX:
+
+    jsx
+    Copy code
+    const element = <h1>Hello, world!</h1>;
+    It will transform into:
+
+    javascript
+    Copy code
+    const element = React.createElement('h1', null, 'Hello, world!');
+    { runtime: 'automatic' }:
+
+    React 17 introduced a feature where you no longer need to write import React from 'react' in every file using JSX.
+    The runtime: 'automatic' setting enables this feature by automatically adding the necessary imports during compilation.
+    Overall Meaning
+    The configuration tells Babel:
+
+    Use @babel/preset-env to ensure your JavaScript works across all environments (browsers or Node.js).
+    Use @babel/preset-react to convert JSX into JavaScript, and enable React’s automatic JSX runtime so you don’t have to manually import React.
+    This configuration simplifies development by allowing you to write modern JavaScript and React code without worrying about browser compatibility.
+
+15. Every doubt regarding typescript:
+A) https://chatgpt.com/share/67630062-d6ac-8000-b13c-66e0f142852f
+
+16) global.d.ts?
+A) global.d.ts delaration is for type for the module.css. It asks for type of styles from '././..'. In plain js type checking is not there.
+    The tsc command directly initiates the TypeScript compilation process and uses tsconfig.json.
+    What Happens:
+
+    Webpack:
+    Detects .ts and .tsx files based on the rule in your configuration.
+    Passes them to the loader (ts-loader or babel-loader).
+
+    Loader:
+    ts-loader: Invokes the TypeScript compiler (tsc) under the hood and adheres to tsconfig.json.
+    babel-loader: Uses Babel to transpile TypeScript (with @babel/preset-typescript).
+    
+    Webpack bundles the transpiled JavaScript into a single file (e.g., bundle.js).
+    A development server like Webpack Dev Server serves the bundled output.
