@@ -123,6 +123,8 @@ A) 1. re-validate max-age:3600 - after 3600 seconds, revalidate with server if t
 
 12. React-redux-deep-dive:
 A) https://chatgpt.com/share/67418f21-a768-8000-928b-6febe230b923
+https://chatgpt.com/share/67418f21-a768-8000-928b-6febe230b923
+https://chatgpt.com/share/67418f21-a768-8000-928b-6febe230b923
 
 13. What is problem with combineReducers?
 A) It will loop everytime for all the declared reducers for one action. Since combine reducer just returns one root reducer and the dispatch will loop through all the reducers and check the condition.
