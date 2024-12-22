@@ -57,7 +57,7 @@ function FirstComponent() {
                 <h1>Hello World!</h1>
                 <Ladder></Ladder>
                 <Board></Board>
-                <Snakes></Snakes>
+                <Snakes data = {10}></Snakes>
             </div>
         ) : null}
         </>

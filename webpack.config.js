@@ -6,7 +6,7 @@ const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const { runtime } = require('webpack');
 
 module.exports = {
-  entry: './index.js', // The entry point of your application
+  entry: './index.tsx', // The entry point of your application
   output: {
     filename: 'bundle.[contenthash].js', // Adds a content hash to JS file
     path: path.resolve(__dirname, 'dist'), // The output folder

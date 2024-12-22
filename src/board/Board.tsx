@@ -1,7 +1,7 @@
 // import './Board.css';
 import styles  from './Board.module.css';
 import { useSelector, useDispatch } from 'react-redux';
-import { reducer1 } from '../redux/toolkitRedux/reducer';
+import { snakesAndLadderActions } from '../store/gameSlices';
 // import loaderImage from './assets/board.jpeg'
 
 // console.log("image is ", loaderImage);
@@ -16,7 +16,7 @@ function Board(data){
     function clicked() {
         console.log("clickeedddd");
         
-        dispatch(reducer1.actions.increment());
+        dispatch(snakesAndLadderActions.increment());
     }
 
     return (
