@@ -1,8 +1,8 @@
 import styles from './Snakes.module.css';
-function Snakes({data}){
+function Snakes(){
     return (
         <div>
-            <div className= {styles.snakes}>Snakes {data}!</div>
+            <div className= {styles.snakes}>Snakes!</div>
         </div>
     )
 }

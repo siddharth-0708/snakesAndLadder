@@ -1,5 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+export interface gameStateTypeProps {
+    count: number;
+}
+
+const initialState: gameStateTypeProps = {
+    count: 0,
+};
+
 const snakesAndLadderSlice = createSlice(
     {
         name: "snakesAndLadder",

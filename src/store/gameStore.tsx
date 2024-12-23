@@ -1,8 +1,11 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { configureStore, Store } from "@reduxjs/toolkit";
 import { snakesAndLadderReducers } from "./gameSlices";
 
 export const store = configureStore(
     {
-        reducer : snakesAndLadderReducers
+        reducer : {
+          gameState:  snakesAndLadderReducers
+        }
     }
 );
+export type RootState = ReturnType<typeof store.getState>;
