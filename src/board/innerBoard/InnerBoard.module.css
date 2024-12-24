@@ -27,4 +27,8 @@
 }
 .cell:nth-child(even){
     background-color: orangered;
+}
+.icon{
+    position: absolute;
+    top: 0px;
 }       
