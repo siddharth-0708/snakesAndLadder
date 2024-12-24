@@ -1,9 +1,8 @@
-.boardClass {
-    width: 250px;
-    height: 100px;
-    background-image: url('./assets/board.jpeg');
-    background-repeat: no-repeat;
-    background-size: contain;
-    color: green;
-    margin-top: 20px;
+.parentBoard {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

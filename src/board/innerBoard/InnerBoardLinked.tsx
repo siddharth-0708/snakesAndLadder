@@ -8,7 +8,6 @@ function InnerBoardLinked(){
 
     return (
         <>
-            <div> inner board parent is {mystate}</div>
             <InnerBoard></InnerBoard>
         </>
     )

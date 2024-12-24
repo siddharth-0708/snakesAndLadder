@@ -1,5 +1,6 @@
 import Snakes from "./src/snakes/Snakes";
 import Ladder from "./src/ladder/Ladder";
+import './index.css';
 import Board from "./src/board/Board";
 import PreLoader from "./src/preLoader/PreLoader";
 import { resources } from "./resources";
@@ -53,9 +54,9 @@ function FirstComponent() {
         <>
         {!data && <PreLoader percentage = {calculatePercentage()}></PreLoader>}
         {data ? (
-            <div>
+            <>
                 <Board/>
-            </div>
+            </>
         ) : null}
         </>
     ) 
