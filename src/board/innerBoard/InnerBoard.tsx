@@ -1,41 +1,73 @@
+import { useDispatch } from 'react-redux';
 import styles from './InnerBoard.module.css';
 import { FC, useEffect, useRef, useState } from 'react';
+import { snakesAndLadderActions } from '../../store/gameSlices';
 
 type cellProps = {
     element: number;
-}
-function InnerBoard(){
-    const [elementsArray, setElementsArray] = useState<number[]>([]);
+    onPositionFetched: (element: number, top: number, left: number) => void;
+};
 
-    useEffect(()=>{
+function InnerBoard() {
+    const [elementsArray, setElementsArray] = useState<number[]>([]);
+    const positions = useRef<{ element: number; top: number; left: number }[]>([]);
+    const dispatch = useDispatch();
+
+    useEffect(() => {
         const array = [];
         for (let i = 1; i <= 100; i++) {
             array.push(i);
         }
         setElementsArray(array);
     }, []);
+
+    const handlePositionFetched = (element: number, top: number, left: number) => {
+        positions.current.push({ element: element, top: top, left: left });
+        
+        if (positions.current.length === 100) {
+            dispatch(snakesAndLadderActions.setCellData(positions.current));
+        }
+    };
+
     return (
-            <div className={styles.innerParent}>
-                {elementsArray?.map(
-                    (ele) => <Cell element = {ele} key={ele}/>)
-                }
-            <div className={styles.icon}>icon</div>    
-            </div>
-    )
+        <div className={styles.innerParent}>
+            {elementsArray.map((ele) => (
+                <Cell key={ele} element={ele} onPositionFetched={handlePositionFetched} />
+            ))}
+            <div className={styles.icon}>icon</div>
+        </div>
+    );
 }
 export default InnerBoard;
 
-export const Cell: FC<cellProps> = ({element}) => {
+export const Cell: FC<cellProps> = ({ element, onPositionFetched }) => {
     const cellRef = useRef<HTMLDivElement>(null);
 
-    useEffect(()=>{
-        if(cellRef.current){
-            console.log("...bottom is ", element, " ", cellRef.current.getBoundingClientRect().bottom);
-            console.log("...bottom is offset top", element, " ", cellRef.current.offsetTop);
-            console.log("...bottom is offset left", element, " ", cellRef.current.offsetLeft);
+    useEffect(() => {
+        if (cellRef.current) {
+            const top = cellRef.current.offsetTop;
+            const left = cellRef.current.offsetLeft;
+            onPositionFetched(element, top, left);
         }
-    }, [cellRef]);
+    }, [cellRef, element]);
+
+    const debouncedResizeHandler = ()=>{
+        console.log("...sid debounce handler called");
+        
+        snakesAndLadderActions.updateCellData({element: element, data: {element: element, top: cellRef.current?.offsetTop, left: cellRef.current?.offsetLeft}});
+    }
+    useEffect(() => {
+    
+        window.addEventListener('resize', debouncedResizeHandler);
+
+        return () => {
+            window.removeEventListener('resize', debouncedResizeHandler);
+        };
+    }, []);
+
     return (
-        <div ref = {cellRef} className= {styles.cell} style={{ gridArea: `cell${element}` }}> {element}</div>
-    )
-}
+        <div ref={cellRef} className={styles.cell} style={{ gridArea: `cell${element}` }}>
+            {element}
+        </div>
+    );
+};
