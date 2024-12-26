@@ -29,7 +29,7 @@ const snakesAndLadderSlice = createSlice(
                 state.cellsData = [...actions.payload];
             },
             updateCellData(state, actions){                
-                const cellData = state.cellsData;
+                const cellData = [...state.cellsData];
                 cellData[actions.payload['element'] - 1] = {element: actions.payload['element'] - 1, top: actions.payload.top, left: actions.payload.left};
                 state.cellsData = [...cellData];
             }

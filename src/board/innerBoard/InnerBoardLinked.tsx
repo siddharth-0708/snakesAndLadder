@@ -6,7 +6,7 @@ import { useEffect } from 'react';
 
 function InnerBoardLinked(){
     const cellData = gameSelectors.getCellData();
-
+        
     useEffect(() => {
         console.log("...sid getting celldata ", cellData);
     }, [cellData])    

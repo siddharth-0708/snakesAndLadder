@@ -6,11 +6,13 @@ import { snakesAndLadderActions } from '../../store/gameSlices';
 type cellProps = {
     element: number;
     onPositionFetched: (element: number, top: number, left: number) => void;
+    resizeTrigger: number;
 };
 
 function InnerBoard() {
     const [elementsArray, setElementsArray] = useState<number[]>([]);
     const positions = useRef<{ element: number; top: number; left: number }[]>([]);
+    const [resizeTrigger, setResizeTrigger] = useState(0);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -25,14 +27,36 @@ function InnerBoard() {
         positions.current.push({ element: element, top: top, left: left });
         
         if (positions.current.length === 100) {
+            console.log("...sid I am here");
+            
             dispatch(snakesAndLadderActions.setCellData(positions.current));
         }
     };
 
+
+    const handleResize = () => {
+        positions.current = [];
+        console.log("...sid resizeTrigger", resizeTrigger); //check this
+        
+        setResizeTrigger((prev) => prev + 1);
+    };
+
+    useEffect(() => {
+
+        window.addEventListener('resize', handleResize);
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
+
+    useEffect(() => {
+        console.log("...sid resizeTrigger useeffect", resizeTrigger);
+    }, [resizeTrigger]);
+
     return (
         <div className={styles.innerParent}>
             {elementsArray.map((ele) => (
-                <Cell key={ele} element={ele} onPositionFetched={handlePositionFetched} />
+                <Cell key={ele} element={ele} resizeTrigger={resizeTrigger} onPositionFetched={handlePositionFetched} />
             ))}
             <div className={styles.icon}>icon</div>
         </div>
@@ -40,28 +64,17 @@ function InnerBoard() {
 }
 export default InnerBoard;
 
-export const Cell: FC<cellProps> = ({ element, onPositionFetched }) => {
-    const cellRef = useRef<HTMLDivElement>(null);
+export const Cell: FC<cellProps> = ({ element, onPositionFetched, resizeTrigger }) => {
+    const cellRef = useRef<HTMLDivElement>(null);    
 
     useEffect(() => {
+        console.log("...sid resize value is ", resizeTrigger);
         if (cellRef.current) {
             const top = cellRef.current.offsetTop;
             const left = cellRef.current.offsetLeft;
             onPositionFetched(element, top, left);
         }
-    }, [cellRef, element]);
-
-    const debouncedResizeHandler = ()=>{        
-        snakesAndLadderActions.updateCellData({element: element, data: {element: element, top: cellRef.current?.offsetTop, left: cellRef.current?.offsetLeft}});
-    }
-    useEffect(() => {
-    
-        window.addEventListener('resize', debouncedResizeHandler);
-
-        return () => {
-            window.removeEventListener('resize', debouncedResizeHandler);
-        };
-    }, []);
+    }, [cellRef, element, resizeTrigger]);
 
     return (
         <div ref={cellRef} className={styles.cell} style={{ gridArea: `cell${element}` }}>
