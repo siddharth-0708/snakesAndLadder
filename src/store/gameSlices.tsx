@@ -28,11 +28,9 @@ const snakesAndLadderSlice = createSlice(
             setCellData(state, actions){
                 state.cellsData = [...actions.payload];
             },
-            updateCellData(state, actions){
-                console.log("...sid updating cell");
-                
+            updateCellData(state, actions){                
                 const cellData = state.cellsData;
-                cellData[0] = {element: 0, top: -100, left: -100};
+                cellData[actions.payload['element'] - 1] = {element: actions.payload['element'] - 1, top: actions.payload.top, left: actions.payload.left};
                 state.cellsData = [...cellData];
             }
         },

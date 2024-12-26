@@ -51,9 +51,7 @@ export const Cell: FC<cellProps> = ({ element, onPositionFetched }) => {
         }
     }, [cellRef, element]);
 
-    const debouncedResizeHandler = ()=>{
-        console.log("...sid debounce handler called");
-        
+    const debouncedResizeHandler = ()=>{        
         snakesAndLadderActions.updateCellData({element: element, data: {element: element, top: cellRef.current?.offsetTop, left: cellRef.current?.offsetLeft}});
     }
     useEffect(() => {
