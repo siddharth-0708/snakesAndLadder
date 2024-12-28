@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux';
 import styles from './InnerBoard.module.css';
-import { FC, useEffect, useRef, useState } from 'react';
+import { FC, useCallback, useEffect, useRef, useState } from 'react';
 import { snakesAndLadderActions } from '../../store/gameSlices';
 
 type cellProps = {
@@ -26,20 +26,16 @@ function InnerBoard() {
     const handlePositionFetched = (element: number, top: number, left: number) => {
         positions.current.push({ element: element, top: top, left: left });
         
-        if (positions.current.length === 100) {
-            console.log("...sid I am here");
-            
+        if (positions.current.length === 100) {            
             dispatch(snakesAndLadderActions.setCellData(positions.current));
         }
     };
 
 
-    const handleResize = () => {
-        positions.current = [];
-        console.log("...sid resizeTrigger", resizeTrigger); //check this
-        
+    const handleResize = useCallback(() => {
+        positions.current = [];        
         setResizeTrigger((prev) => prev + 1);
-    };
+    },[]);
 
     useEffect(() => {
 
@@ -48,10 +44,6 @@ function InnerBoard() {
             window.removeEventListener('resize', handleResize);
         };
     }, []);
-
-    useEffect(() => {
-        console.log("...sid resizeTrigger useeffect", resizeTrigger);
-    }, [resizeTrigger]);
 
     return (
         <div className={styles.innerParent}>
@@ -68,7 +60,6 @@ export const Cell: FC<cellProps> = ({ element, onPositionFetched, resizeTrigger 
     const cellRef = useRef<HTMLDivElement>(null);    
 
     useEffect(() => {
-        console.log("...sid resize value is ", resizeTrigger);
         if (cellRef.current) {
             const top = cellRef.current.offsetTop;
             const left = cellRef.current.offsetLeft;
