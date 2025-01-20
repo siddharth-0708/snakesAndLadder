@@ -31,7 +31,6 @@ function InnerBoard() {
         }
     };
 
-
     const handleResize = useCallback(() => {
         positions.current = [];        
         setResizeTrigger((prev) => prev + 1);
@@ -51,6 +50,7 @@ function InnerBoard() {
                 <Cell key={ele} element={ele} resizeTrigger={resizeTrigger} onPositionFetched={handlePositionFetched} />
             ))}
             <div className={styles.icon}>icon</div>
+            <div className={styles.snake}></div>
         </div>
     );
 }

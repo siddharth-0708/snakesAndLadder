@@ -31,4 +31,22 @@
 .icon{
     position: absolute;
     top: 0px;
+    animation: move 1s linear both 2s;
+    transform: translate(100px, 200px);
+}
+@keyframes move {
+    from{
+        transform: translate(300px, 240px);
+    }
+    to{
+        transform: translate(120px, 480px);
+    }
+}
+.snake {
+    position: absolute;
+    background-image: url('../assets/snake.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 500px;
+    height: 500px;
 }       

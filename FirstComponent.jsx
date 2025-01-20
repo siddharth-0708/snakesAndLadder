@@ -1,7 +1,6 @@
-import Snakes from "./src/snakes/Snakes";
-import Ladder from "./src/ladder/Ladder";
 import './index.css';
 import Board from "./src/board/Board";
+import Dice from "./src/dice/Dice";
 import PreLoader from "./src/preLoader/PreLoader";
 import { resources } from "./resources";
 import { useEffect, useState } from "react";
@@ -56,6 +55,7 @@ function FirstComponent() {
         {data ? (
             <>
                 <Board/>
+                <Dice/>
             </>
         ) : null}
         </>
