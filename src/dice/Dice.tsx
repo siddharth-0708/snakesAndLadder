@@ -1,8 +1,10 @@
 import styles from './Dice.module.css';
+import { snakesAndLadderActions } from '../store/gameSlices';
 
 function Dice(){
     function generateRandomNumber(){
-        return Math.floor(Math.random() * 6) + 1;
+        snakesAndLadderActions.setDiceData(Math.floor(Math.random() * 6) + 1);
+        // return Math.floor(Math.random() * 6) + 1;
     }
     function rollDice(){
         generateRandomNumber();
