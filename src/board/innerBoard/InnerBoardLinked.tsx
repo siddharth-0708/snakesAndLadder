@@ -6,10 +6,15 @@ import { useEffect } from 'react';
 
 function InnerBoardLinked(){
     const cellData = gameSelectors.getCellData();
+    const diceData = gameSelectors.getDiceData();
         
     useEffect(() => {
         console.log("...sid getting celldata ", cellData);
-    }, [cellData])    
+    }, [cellData])
+    
+    useEffect(() => {
+        console.log("...sid getting diceData ", diceData);
+    }, [diceData])
 
     return (
         <>

@@ -8,6 +8,9 @@ const gameSelectors = {
     },
     getCellData: (): gameStateTypeProps['cellsData']=>{
         return useSelector(({gameState}: RootState)=> gameState.cellsData);
+    },
+    getDiceData: (): gameStateTypeProps['diceData']=>{
+        return useSelector(({gameState}: RootState)=> gameState.diceData);
     }
 }
 export default gameSelectors;

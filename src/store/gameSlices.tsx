@@ -10,11 +10,13 @@ type cellsDataProps = {
 export interface gameStateTypeProps {
     count: number;
     cellsData: cellsDataProps[],
+    diceData: number;
 }
 
 const initialState: gameStateTypeProps = {
     count: 0,
     cellsData: [],
+    diceData: 0
 };
 
 const snakesAndLadderSlice = createSlice(
@@ -32,6 +34,9 @@ const snakesAndLadderSlice = createSlice(
                 const cellData = [...state.cellsData];
                 cellData[actions.payload['element'] - 1] = {element: actions.payload['element'] - 1, top: actions.payload.top, left: actions.payload.left};
                 state.cellsData = [...cellData];
+            },
+            setDiceData(state, actions){
+                state.diceData = actions.payload;
             }
         },
     }
