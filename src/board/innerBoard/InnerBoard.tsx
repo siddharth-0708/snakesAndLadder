@@ -9,9 +9,11 @@ type cellProps = {
     resizeTrigger: number;
 };
 
-function InnerBoard() {
+function InnerBoard({ diceData }: { diceData: number }) {
     const [elementsArray, setElementsArray] = useState<number[]>([]);
     const positions = useRef<{ element: number; top: number; left: number }[]>([]);
+    const iconRef = useRef<HTMLDivElement>(null);
+    const diceTotalCount = useRef<number>(0);
     const [resizeTrigger, setResizeTrigger] = useState(0);
     const dispatch = useDispatch();
 
@@ -22,6 +24,16 @@ function InnerBoard() {
         }
         setElementsArray(array);
     }, []);
+
+    useEffect(()=>{
+        if(positions.current.length > 0) {
+        diceTotalCount.current = diceTotalCount.current + diceData + 1;
+        const diceNum = diceTotalCount.current;
+        const diceString: string = diceNum.toString();
+        iconRef.current?.style.setProperty('--diceMoveX', positions.current[diceString].left + 'px');
+        iconRef.current?.style.setProperty('--diceMoveY', positions.current[diceString].top + 'px');
+        }
+    },[diceData]);
 
     const handlePositionFetched = (element: number, top: number, left: number) => {
         positions.current.push({ element: element, top: top, left: left });
@@ -49,7 +61,7 @@ function InnerBoard() {
             {elementsArray.map((ele) => (
                 <Cell key={ele} element={ele} resizeTrigger={resizeTrigger} onPositionFetched={handlePositionFetched} />
             ))}
-            <div className={styles.icon}>icon</div>
+            <div ref={iconRef} className={styles.icon}>icon</div>
             <div className={styles.snake}></div>
         </div>
     );

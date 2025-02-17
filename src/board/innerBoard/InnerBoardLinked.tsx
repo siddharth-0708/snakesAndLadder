@@ -18,7 +18,7 @@ function InnerBoardLinked(){
 
     return (
         <>
-            <InnerBoard></InnerBoard>
+            <InnerBoard diceData = {diceData}></InnerBoard>
         </>
     )
 }

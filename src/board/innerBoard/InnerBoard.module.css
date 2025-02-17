@@ -29,10 +29,14 @@
     background-color: orangered;
 }
 .icon{
+    --diceMoveX: 0;
+    --diceMoveY: 0;
     position: absolute;
     top: 0px;
-    animation: move 1s linear both 2s;
-    transform: translate(100px, 200px);
+    /* animation: move 1s linear both 2s; */
+    /* transform: translate(100px, 200px); */
+    transition: all 300ms;
+    transform: translate(var(--diceMoveX, 0), var(--diceMoveY, 0));
 }
 @keyframes move {
     from{
