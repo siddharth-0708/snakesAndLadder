@@ -10,13 +10,17 @@ type cellsDataProps = {
 export interface gameStateTypeProps {
     count: number;
     cellsData: cellsDataProps[],
-    diceData: number;
+    diceData: { [key: number]: number };
+    snakesMapping : { [key: number]: number};
+    ladderMapping : { [key: number]: number};
 }
 
 const initialState: gameStateTypeProps = {
     count: 0,
     cellsData: [],
-    diceData: 0
+    diceData: { 1: 1 },
+    snakesMapping: { 55: 18, 99: 38, 33: 15, 84: 18, 91: 49, 63: 27},
+    ladderMapping : { 24: 59, 5: 47, 50: 70, 67: 97},
 };
 
 const snakesAndLadderSlice = createSlice(
@@ -36,8 +40,21 @@ const snakesAndLadderSlice = createSlice(
                 state.cellsData = [...cellData];
             },
             setDiceData(state, actions){
-                state.diceData = actions.payload;
-            }
+                const playerData = {...state.diceData};
+                let finalNumber = playerData[actions.payload.playerNumber] + actions.payload.diceNumber;
+                if(finalNumber <= 100){
+                    playerData[actions.payload.playerNumber] = playerData[actions.payload.playerNumber] + actions.payload.diceNumber;
+                    state.diceData = {...playerData};
+                }
+            },
+            setSnakesMapping(state, actions){
+                state.snakesMapping = {...actions.payload.snakesMapping};
+            },
+            setSnakeBiteOrLadderClimb(state, actions){
+                const playerData = {...state.diceData};
+                playerData[actions.payload.playerNumber] = actions.payload.finalNumber;
+                state.diceData = {...playerData};
+            },
         },
     }
 );

@@ -33,6 +33,7 @@
     --diceMoveY: 0;
     position: absolute;
     top: 0px;
+    color: yellow;
     /* animation: move 1s linear both 2s; */
     /* transform: translate(100px, 200px); */
     transition: all 300ms;

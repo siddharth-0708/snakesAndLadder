@@ -9,11 +9,14 @@ type cellProps = {
     resizeTrigger: number;
 };
 
-function InnerBoard({ diceData }: { diceData: number }) {
+type mapping = {
+    [key: number] : number;
+}
+
+function InnerBoard({ diceData, snakesData, ladderData }: { diceData: mapping, snakesData : mapping, ladderData: mapping}) {
     const [elementsArray, setElementsArray] = useState<number[]>([]);
     const positions = useRef<{ element: number; top: number; left: number }[]>([]);
     const iconRef = useRef<HTMLDivElement>(null);
-    const diceTotalCount = useRef<number>(0);
     const [resizeTrigger, setResizeTrigger] = useState(0);
     const dispatch = useDispatch();
 
@@ -27,13 +30,20 @@ function InnerBoard({ diceData }: { diceData: number }) {
 
     useEffect(()=>{
         if(positions.current.length > 0) {
-        diceTotalCount.current = diceTotalCount.current + diceData + 1;
-        const diceNum = diceTotalCount.current;
-        const diceString: string = diceNum.toString();
-        iconRef.current?.style.setProperty('--diceMoveX', positions.current[diceString].left + 'px');
-        iconRef.current?.style.setProperty('--diceMoveY', positions.current[diceString].top + 'px');
+        iconRef.current?.style.setProperty('--diceMoveX', positions.current[diceData[1] - 1].left + 'px');
+        iconRef.current?.style.setProperty('--diceMoveY', positions.current[diceData[1] - 1].top + 'px');
+
+        if(snakesData[diceData[1]]){
+            setTimeout(() => {
+                dispatch(snakesAndLadderActions.setSnakeBiteOrLadderClimb({playerNumber: 1, finalNumber: snakesData[diceData[1]]}));
+            }, 500);
+        } else if(ladderData[diceData[1]]){
+            setTimeout(() => {
+                dispatch(snakesAndLadderActions.setSnakeBiteOrLadderClimb({playerNumber: 1, finalNumber: ladderData[diceData[1]]}));
+            }, 500);
         }
-    },[diceData]);
+        }
+    },[diceData, positions.current.length]);
 
     const handlePositionFetched = (element: number, top: number, left: number) => {
         positions.current.push({ element: element, top: top, left: left });

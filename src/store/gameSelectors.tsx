@@ -11,6 +11,12 @@ const gameSelectors = {
     },
     getDiceData: (): gameStateTypeProps['diceData']=>{
         return useSelector(({gameState}: RootState)=> gameState.diceData);
-    }
+    },
+    getSnakesMapping: (): gameStateTypeProps['snakesMapping']=>{
+        return useSelector(({gameState}: RootState)=> gameState.snakesMapping);
+    },
+    getLadderMapping: (): gameStateTypeProps['ladderMapping']=>{
+        return useSelector(({gameState}: RootState)=> gameState.ladderMapping);
+    }    
 }
 export default gameSelectors;

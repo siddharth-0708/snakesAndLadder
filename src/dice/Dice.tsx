@@ -6,8 +6,10 @@ function Dice(){
     const dispatch = useDispatch();
 
     function generateRandomNumber(){
-        dispatch(snakesAndLadderActions.setDiceData(Math.floor(Math.random() * 6) + 1));
-        // return Math.floor(Math.random() * 6) + 1;
+        const randomNumber = Math.floor(Math.random() * 6) + 1;
+        console.log("...random number: ", randomNumber);
+        
+        dispatch(snakesAndLadderActions.setDiceData({playerNumber: 1, diceNumber: randomNumber}));
     }
     function rollDice(){
         generateRandomNumber();
