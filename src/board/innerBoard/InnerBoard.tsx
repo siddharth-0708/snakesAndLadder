@@ -38,7 +38,7 @@ function InnerBoard({ diceData, snakesData, ladderData, playerDiceData }: { dice
             setTimeout(() => {
                 dispatch(snakesAndLadderActions.setSnakeBiteOrLadderClimb({playerNumber: playerDiceData, finalNumber: snakesData[diceData[playerDiceData]]}));
             }, 500);
-        } else if(ladderData[diceData[1]]){
+        } else if(ladderData[diceData[playerDiceData]]){
             setTimeout(() => {
                 dispatch(snakesAndLadderActions.setSnakeBiteOrLadderClimb({playerNumber: playerDiceData, finalNumber: ladderData[diceData[playerDiceData]]}));
             }, 500);
