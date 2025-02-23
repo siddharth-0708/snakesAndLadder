@@ -19,6 +19,7 @@ function InnerBoard({ diceData, snakesData, ladderData, playerDiceData }: { dice
     const iconRef = useRef<HTMLDivElement>(null);
     const multipleIconRef = useRef<HTMLDivElement[]>([]);
     const [resizeTrigger, setResizeTrigger] = useState(0);
+    const [startGame, setStartGame] = useState(false);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -30,26 +31,51 @@ function InnerBoard({ diceData, snakesData, ladderData, playerDiceData }: { dice
     }, []);
 
     useEffect(()=>{
-        if(positions.current.length > 0) {
+        if(startGame && !playerDiceData){
+            dispatch(snakesAndLadderActions.setDicePlayerNumber(playerDiceData + 1));
+            return;
+        }
+        if(startGame) {
             multipleIconRef.current[playerDiceData - 1]?.style.setProperty('--diceMoveX', positions.current[diceData[playerDiceData] - 1].left + 'px');
             multipleIconRef.current[playerDiceData - 1]?.style.setProperty('--diceMoveY', positions.current[diceData[playerDiceData] - 1].top + 'px');
 
         if(snakesData[diceData[playerDiceData]]){
             setTimeout(() => {
                 dispatch(snakesAndLadderActions.setSnakeBiteOrLadderClimb({playerNumber: playerDiceData, finalNumber: snakesData[diceData[playerDiceData]]}));
+                if( playerDiceData + 1 > 4){
+                    dispatch(snakesAndLadderActions.setDicePlayerNumber(1));
+                }else{
+                    dispatch(snakesAndLadderActions.setDicePlayerNumber(playerDiceData + 1));
+                }
             }, 500);
         } else if(ladderData[diceData[playerDiceData]]){
             setTimeout(() => {
                 dispatch(snakesAndLadderActions.setSnakeBiteOrLadderClimb({playerNumber: playerDiceData, finalNumber: ladderData[diceData[playerDiceData]]}));
+                if( playerDiceData + 1 > 4){
+                    dispatch(snakesAndLadderActions.setDicePlayerNumber(1));
+                }else{
+                    dispatch(snakesAndLadderActions.setDicePlayerNumber(playerDiceData + 1));
+                }
             }, 500);
-        }
-        if( playerDiceData + 1 > 4){
-            dispatch(snakesAndLadderActions.setDicePlayerNumber(1));
         }else{
-            dispatch(snakesAndLadderActions.setDicePlayerNumber(playerDiceData + 1));
+            if( playerDiceData + 1 > 4){
+                dispatch(snakesAndLadderActions.setDicePlayerNumber(1));
+            }else{
+                dispatch(snakesAndLadderActions.setDicePlayerNumber(playerDiceData + 1));
+            }
         }
         }
-    },[diceData, positions.current.length]);
+    },[diceData, startGame]);
+
+    useEffect(()=>{
+        if(positions.current.length > 0 && !startGame) {
+            multipleIconRef.current.forEach((ele, index)=>{
+                ele?.style.setProperty('--diceMoveX', positions.current[diceData[index + 1] - 1].left + 'px');
+                ele?.style.setProperty('--diceMoveY', positions.current[diceData[index + 1] - 1].top + 'px');    
+            })
+            setStartGame(true);
+        }
+    },[positions.current.length, startGame])
 
     const handlePositionFetched = (element: number, top: number, left: number) => {
         positions.current.push({ element: element, top: top, left: left });

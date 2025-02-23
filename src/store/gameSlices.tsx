@@ -22,7 +22,7 @@ const initialState: gameStateTypeProps = {
     diceData: { 1: 1, 2: 1, 3:1, 4: 1 },
     snakesMapping: { 55: 18, 99: 38, 33: 15, 84: 18, 91: 49, 63: 27},
     ladderMapping : { 24: 59, 5: 47, 50: 70, 67: 97},
-    dicePlayerNumber : 1
+    dicePlayerNumber : 0
 };
 
 const snakesAndLadderSlice = createSlice(
