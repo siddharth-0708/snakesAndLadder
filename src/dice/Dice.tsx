@@ -1,15 +1,16 @@
 import styles from './Dice.module.css';
 import { useDispatch } from 'react-redux';
 import { snakesAndLadderActions } from '../store/gameSlices';
-
+import gameSelectors from '../store/gameSelectors';
 function Dice(){
     const dispatch = useDispatch();
+    const playerDiceData = gameSelectors.getDicePlayerNumber();
 
     function generateRandomNumber(){
         const randomNumber = Math.floor(Math.random() * 6) + 1;
         console.log("...random number: ", randomNumber);
         
-        dispatch(snakesAndLadderActions.setDiceData({playerNumber: 1, diceNumber: randomNumber}));
+        dispatch(snakesAndLadderActions.setDiceData({playerNumber: playerDiceData, diceNumber: randomNumber}));
     }
     function rollDice(){
         generateRandomNumber();

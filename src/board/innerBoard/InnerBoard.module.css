@@ -49,7 +49,7 @@
 }
 .snake {
     position: absolute;
-    background-image: url('../assets/snake.png');
+    background-image: url('../assets/snake.gif');
     background-repeat: no-repeat;
     background-size: cover;
     width: 40%;

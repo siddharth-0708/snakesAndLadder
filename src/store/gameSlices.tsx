@@ -13,14 +13,16 @@ export interface gameStateTypeProps {
     diceData: { [key: number]: number };
     snakesMapping : { [key: number]: number};
     ladderMapping : { [key: number]: number};
+    dicePlayerNumber : number;
 }
 
 const initialState: gameStateTypeProps = {
     count: 0,
     cellsData: [],
-    diceData: { 1: 1 },
+    diceData: { 1: 1, 2: 1, 3:1, 4: 1 },
     snakesMapping: { 55: 18, 99: 38, 33: 15, 84: 18, 91: 49, 63: 27},
     ladderMapping : { 24: 59, 5: 47, 50: 70, 67: 97},
+    dicePlayerNumber : 1
 };
 
 const snakesAndLadderSlice = createSlice(
@@ -46,6 +48,18 @@ const snakesAndLadderSlice = createSlice(
                     playerData[actions.payload.playerNumber] = playerData[actions.payload.playerNumber] + actions.payload.diceNumber;
                     state.diceData = {...playerData};
                 }
+                // if( state.dicePlayerNumber + 1 > 4){
+                //     state.dicePlayerNumber = 1;
+                // }else{
+                //     state.dicePlayerNumber = state.dicePlayerNumber + 1;
+                // }
+                // if(actions.payload.diceNumber !== 6){
+                //     if( state.dicePlayerNumber + 1 > 4){
+                //         state.dicePlayerNumber = 1;
+                //     }else{
+                //         state.dicePlayerNumber = state.dicePlayerNumber + 1;
+                //     }
+                // }
             },
             setSnakesMapping(state, actions){
                 state.snakesMapping = {...actions.payload.snakesMapping};
@@ -54,6 +68,9 @@ const snakesAndLadderSlice = createSlice(
                 const playerData = {...state.diceData};
                 playerData[actions.payload.playerNumber] = actions.payload.finalNumber;
                 state.diceData = {...playerData};
+            },
+            setDicePlayerNumber(state, actions){
+                state.dicePlayerNumber = actions.payload;
             },
         },
     }

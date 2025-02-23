@@ -13,10 +13,11 @@ type mapping = {
     [key: number] : number;
 }
 
-function InnerBoard({ diceData, snakesData, ladderData }: { diceData: mapping, snakesData : mapping, ladderData: mapping}) {
+function InnerBoard({ diceData, snakesData, ladderData, playerDiceData }: { diceData: mapping, snakesData : mapping, ladderData: mapping, playerDiceData: number}) {
     const [elementsArray, setElementsArray] = useState<number[]>([]);
     const positions = useRef<{ element: number; top: number; left: number }[]>([]);
     const iconRef = useRef<HTMLDivElement>(null);
+    const multipleIconRef = useRef<HTMLDivElement[]>([]);
     const [resizeTrigger, setResizeTrigger] = useState(0);
     const dispatch = useDispatch();
 
@@ -30,17 +31,22 @@ function InnerBoard({ diceData, snakesData, ladderData }: { diceData: mapping, s
 
     useEffect(()=>{
         if(positions.current.length > 0) {
-        iconRef.current?.style.setProperty('--diceMoveX', positions.current[diceData[1] - 1].left + 'px');
-        iconRef.current?.style.setProperty('--diceMoveY', positions.current[diceData[1] - 1].top + 'px');
+            multipleIconRef.current[playerDiceData - 1]?.style.setProperty('--diceMoveX', positions.current[diceData[playerDiceData] - 1].left + 'px');
+            multipleIconRef.current[playerDiceData - 1]?.style.setProperty('--diceMoveY', positions.current[diceData[playerDiceData] - 1].top + 'px');
 
-        if(snakesData[diceData[1]]){
+        if(snakesData[diceData[playerDiceData]]){
             setTimeout(() => {
-                dispatch(snakesAndLadderActions.setSnakeBiteOrLadderClimb({playerNumber: 1, finalNumber: snakesData[diceData[1]]}));
+                dispatch(snakesAndLadderActions.setSnakeBiteOrLadderClimb({playerNumber: playerDiceData, finalNumber: snakesData[diceData[playerDiceData]]}));
             }, 500);
         } else if(ladderData[diceData[1]]){
             setTimeout(() => {
-                dispatch(snakesAndLadderActions.setSnakeBiteOrLadderClimb({playerNumber: 1, finalNumber: ladderData[diceData[1]]}));
+                dispatch(snakesAndLadderActions.setSnakeBiteOrLadderClimb({playerNumber: playerDiceData, finalNumber: ladderData[diceData[playerDiceData]]}));
             }, 500);
+        }
+        if( playerDiceData + 1 > 4){
+            dispatch(snakesAndLadderActions.setDicePlayerNumber(1));
+        }else{
+            dispatch(snakesAndLadderActions.setDicePlayerNumber(playerDiceData + 1));
         }
         }
     },[diceData, positions.current.length]);
@@ -71,7 +77,8 @@ function InnerBoard({ diceData, snakesData, ladderData }: { diceData: mapping, s
             {elementsArray.map((ele) => (
                 <Cell key={ele} element={ele} resizeTrigger={resizeTrigger} onPositionFetched={handlePositionFetched} />
             ))}
-            <div ref={iconRef} className={styles.icon}>icon</div>
+            {[1,2,3,4].map((element, index) => (
+                <div key={element} ref={(ele : HTMLDivElement)=> {multipleIconRef.current[index] = ele}} className={styles.icon}>icon{index}</div>))}
             <div className={styles.snake}></div>
         </div>
     );

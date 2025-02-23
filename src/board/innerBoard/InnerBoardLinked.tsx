@@ -9,22 +9,23 @@ function InnerBoardLinked(){
     const diceData = gameSelectors.getDiceData();
     const snakesData = gameSelectors.getSnakesMapping();
     const ladderData = gameSelectors.getLadderMapping();
+    const playerDiceData = gameSelectors.getDicePlayerNumber();
         
     useEffect(() => {
-        console.log("...sid getting celldata ", cellData);
+        // console.log("...sid getting celldata ", cellData);
     }, [cellData])
     
     useEffect(() => {
-        console.log("...sid getting diceData ", diceData);
-    }, [diceData])
+        console.log("...sidDDDDDDDDDD getting playerDiceData ", playerDiceData);
+    }, [playerDiceData])
 
     useEffect(() => {
-        console.log("...sid getting diceData ", snakesData);
+        // console.log("...sid getting diceData ", snakesData);
     }, [snakesData])
     
 
     return (
-        <InnerBoard diceData = {diceData} snakesData = {snakesData} ladderData = {ladderData}></InnerBoard>
+        <InnerBoard diceData = {diceData} snakesData = {snakesData} ladderData = {ladderData} playerDiceData = {playerDiceData}></InnerBoard>
     )
 }
 export default InnerBoardLinked;

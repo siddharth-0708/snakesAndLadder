@@ -17,6 +17,9 @@ const gameSelectors = {
     },
     getLadderMapping: (): gameStateTypeProps['ladderMapping']=>{
         return useSelector(({gameState}: RootState)=> gameState.ladderMapping);
-    }    
+    },
+    getDicePlayerNumber: (): gameStateTypeProps['dicePlayerNumber']=>{
+        return useSelector(({gameState}: RootState)=> gameState.dicePlayerNumber);
+    },     
 }
 export default gameSelectors;
