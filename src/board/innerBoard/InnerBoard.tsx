@@ -13,7 +13,7 @@ type mapping = {
     [key: number] : number;
 }
 
-function InnerBoard({ diceData, snakesData, ladderData, playerDiceData }: { diceData: mapping, snakesData : mapping, ladderData: mapping, playerDiceData: number}) {
+function InnerBoard({ diceNumber, diceData, snakesData, ladderData, playerDiceData }: { diceNumber: number, diceData: mapping, snakesData : mapping, ladderData: mapping, playerDiceData: number}) {
     const [elementsArray, setElementsArray] = useState<number[]>([]);
     const positions = useRef<{ element: number; top: number; left: number }[]>([]);
     const iconRef = useRef<HTMLDivElement>(null);
@@ -32,35 +32,36 @@ function InnerBoard({ diceData, snakesData, ladderData, playerDiceData }: { dice
 
     useEffect(()=>{
         if(startGame && !playerDiceData){
+            console.log("...sid setting position for player INITTTT", playerDiceData + 1);
             dispatch(snakesAndLadderActions.setDicePlayerNumber(playerDiceData + 1));
             return;
         }
         if(startGame) {
+            console.log("...sid dice data is ", diceData);
+            console.log("...sid setting position for player ", playerDiceData);
+            
             multipleIconRef.current[playerDiceData - 1]?.style.setProperty('--diceMoveX', positions.current[diceData[playerDiceData] - 1].left + 'px');
             multipleIconRef.current[playerDiceData - 1]?.style.setProperty('--diceMoveY', positions.current[diceData[playerDiceData] - 1].top + 'px');
 
         if(snakesData[diceData[playerDiceData]]){
             setTimeout(() => {
+                console.log("...sid setting setSnakeBiteOrLadderClimb for player for snake bite", playerDiceData);
                 dispatch(snakesAndLadderActions.setSnakeBiteOrLadderClimb({playerNumber: playerDiceData, finalNumber: snakesData[diceData[playerDiceData]]}));
-                if( playerDiceData + 1 > 4){
-                    dispatch(snakesAndLadderActions.setDicePlayerNumber(1));
-                }else{
-                    dispatch(snakesAndLadderActions.setDicePlayerNumber(playerDiceData + 1));
-                }
             }, 500);
         } else if(ladderData[diceData[playerDiceData]]){
             setTimeout(() => {
+                console.log("...sid setting setSnakeBiteOrLadderClimb for player for ladder climb ", playerDiceData);
                 dispatch(snakesAndLadderActions.setSnakeBiteOrLadderClimb({playerNumber: playerDiceData, finalNumber: ladderData[diceData[playerDiceData]]}));
-                if( playerDiceData + 1 > 4){
-                    dispatch(snakesAndLadderActions.setDicePlayerNumber(1));
-                }else{
-                    dispatch(snakesAndLadderActions.setDicePlayerNumber(playerDiceData + 1));
-                }
             }, 500);
         }else{
+            if(diceNumber === 6){
+                return;
+            }
             if( playerDiceData + 1 > 4){
+                console.log("...sid setting playerDice playerDiceData + 1 > 4 to 1 LAST");
                 dispatch(snakesAndLadderActions.setDicePlayerNumber(1));
             }else{
+                console.log("...sid setting playerDice else to LAST", playerDiceData + 1);
                 dispatch(snakesAndLadderActions.setDicePlayerNumber(playerDiceData + 1));
             }
         }

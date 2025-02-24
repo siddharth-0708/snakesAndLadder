@@ -20,6 +20,9 @@ const gameSelectors = {
     },
     getDicePlayerNumber: (): gameStateTypeProps['dicePlayerNumber']=>{
         return useSelector(({gameState}: RootState)=> gameState.dicePlayerNumber);
-    },     
+    },
+    getDiceNumber: (): gameStateTypeProps['diceNumber']=>{
+        return useSelector(({gameState}: RootState)=> gameState.diceNumber);
+    }
 }
 export default gameSelectors;

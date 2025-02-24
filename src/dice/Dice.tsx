@@ -8,8 +8,9 @@ function Dice(){
 
     function generateRandomNumber(){
         const randomNumber = Math.floor(Math.random() * 6) + 1;
-        console.log("...random number: ", randomNumber);
-        
+        console.log("...sid random number: ", randomNumber);
+                
+        dispatch(snakesAndLadderActions.setDiceNumber(randomNumber));
         dispatch(snakesAndLadderActions.setDiceData({playerNumber: playerDiceData, diceNumber: randomNumber}));
     }
     function rollDice(){
