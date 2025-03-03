@@ -10,6 +10,16 @@ function Dice() {
   const previousDice = useRef<number>(0);
   const previousClassLength = useRef<number>(5);
 
+  const sides = 6;
+  const dotsMap: Record<number, string[]> = {
+    1: ["one1"],
+    2: ["two1", "two2"],
+    3: ["three1", "three2", "three3"],
+    4: ["four1", "four2", "four3", "four4"],
+    5: ["five1", "five2", "five3", "five4", "five5"],
+    6: ["six1", "six2", "six3", "six4", "six5", "six6"],
+  };
+
   function generateRandomNumber() {
     const randomNumber = Math.floor(Math.random() * 6) + 1;
     console.log("...sid random number: ", randomNumber);
@@ -52,39 +62,13 @@ function Dice() {
   return (
     <div className={styles.diceParent}>
       <div ref={diceParentRef} className={styles.dice + " " + styles.diceone}>
-        <div className={styles.side + " " + styles.one}>
-          <div className={styles.dot + " " + styles.one1}></div>
-        </div>
-        <div className={styles.side + " " + styles.two}>
-          <div className={styles.dot + " " + styles.two1}></div>
-          <div className={styles.dot + " " + styles.two2}></div>
-        </div>
-        <div className={styles.side + " " + styles.three}>
-          <div className={styles.dot + " " + styles.three1}></div>
-          <div className={styles.dot + " " + styles.three2}></div>
-          <div className={styles.dot + " " + styles.three3}></div>
-        </div>
-        <div className={styles.side + " " + styles.four}>
-          <div className={styles.dot + " " + styles.four1}></div>
-          <div className={styles.dot + " " + styles.four2}></div>
-          <div className={styles.dot + " " + styles.four3}></div>
-          <div className={styles.dot + " " + styles.four4}></div>
-        </div>
-        <div className={styles.side + " " + styles.five}>
-          <div className={styles.dot + " " + styles.five1}></div>
-          <div className={styles.dot + " " + styles.five2}></div>
-          <div className={styles.dot + " " + styles.five3}></div>
-          <div className={styles.dot + " " + styles.five4}></div>
-          <div className={styles.dot + " " + styles.five5}></div>
-        </div>
-        <div className={styles.side + " " + styles.six}>
-          <div className={styles.dot + " " + styles.six1}></div>
-          <div className={styles.dot + " " + styles.six2}></div>
-          <div className={styles.dot + " " + styles.six3}></div>
-          <div className={styles.dot + " " + styles.six4}></div>
-          <div className={styles.dot + " " + styles.six5}></div>
-          <div className={styles.dot + " " + styles.six6}></div>
-        </div>
+      {[...Array(sides)].map((_, i) => (
+          <div key={i} className={`${styles.side} ${styles[`side${i + 1}`]}`}>
+            {dotsMap[i + 1].map((dot) => (
+              <div key={dot} className={`${styles.dot} ${styles[dot]}`}></div>
+            ))}
+          </div>
+        ))}
       </div>
       <div>dice</div>
       <button onClick={rollDice}>roll dice</button>
