@@ -7,6 +7,8 @@ function Dice() {
   const dispatch = useDispatch();
   const playerDiceData = gameSelectors.getDicePlayerNumber();
   const diceParentRef = useRef<HTMLDivElement>(null);
+  const previousDice = useRef<number>(0);
+  const previousClassLength = useRef<number>(5);
 
   function generateRandomNumber() {
     const randomNumber = Math.floor(Math.random() * 6) + 1;
@@ -23,16 +25,29 @@ function Dice() {
   function rollDice() { 
     generateRandomNumber();
   }
-  function playDiceAnimation(value: number){
+  function playDiceAnimation(value: number) {
     console.log("...sid random number in dice animation is ", value);
-    
+
     for (let i = 1; i <= 6; i++) {
-        diceParentRef.current?.classList.remove(styles['show' + i]);
-        if (value === i) {
-            setTimeout(() => {
-                diceParentRef.current?.classList.add(styles['show' + i]);
-            }, 500);        }
+      diceParentRef.current?.classList.remove(styles["show" + i]);
+      diceParentRef.current?.classList.remove(styles["show10" + i]);
+
+      if (value === i) {
+        if (previousDice.current === value) {
+          if (previousClassLength.current === 5) {
+            diceParentRef.current?.classList.add(styles["show10" + i]);
+            previousClassLength.current = 7;
+          } else {
+            diceParentRef.current?.classList.add(styles["show" + i]);
+            previousClassLength.current = 5;
+          }
+        } else {
+          diceParentRef.current?.classList.add(styles["show" + i]);
+          previousClassLength.current = 5;
+        }
       }
+    }
+    previousDice.current = value;
   }
   return (
     <div className={styles.diceParent}>
