@@ -1,4 +1,4 @@
-import './index.css';
+import styles from './index.css';
 import Board from "./src/board/Board";
 import Dice from "./src/dice/Dice";
 import PreLoader from "./src/preLoader/PreLoader";
@@ -53,10 +53,10 @@ function FirstComponent() {
         <>
         {!data && <PreLoader percentage = {calculatePercentage()}></PreLoader>}
         {data ? (
-            <>
+            <div className = {styles.gameParent}>
                 <Board/>
                 <Dice/>
-            </>
+            </div>
         ) : null}
         </>
     ) 

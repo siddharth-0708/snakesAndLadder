@@ -60,7 +60,7 @@ function Dice() {
     previousDice.current = value;
   }
   return (
-    <div className={styles.diceParent}>
+    <div onClick={rollDice} className={styles.diceParent}>
       <div ref={diceParentRef} className={styles.dice + " " + styles.diceone}>
       {[...Array(sides)].map((_, i) => (
           <div key={i} className={`${styles.side} ${styles[`side${i + 1}`]}`}>
@@ -70,8 +70,6 @@ function Dice() {
           </div>
         ))}
       </div>
-      <div>dice</div>
-      <button onClick={rollDice}>roll dice</button>
     </div>
   );
 }

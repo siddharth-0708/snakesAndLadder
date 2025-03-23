@@ -6,4 +6,18 @@ html, body {
 #root {
     width: 100%;
     height: 100%;  
+}
+.gameParent {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    position: relative;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr auto;
+    grid-template-areas: 'board'
+                         'dice';
+    background-image: url('./src/board/assets/background.jpeg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    overflow: hidden;
 } 
