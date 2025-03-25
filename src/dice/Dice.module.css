@@ -8,6 +8,11 @@
         justify-content: center;
         cursor: pointer;
     }
+    .lottie {
+        position: absolute;
+        width: 100px;
+        height: 100px;
+    }
     .dice {
         position: absolute;
         width: 60px;

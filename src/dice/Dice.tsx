@@ -2,7 +2,11 @@ import styles from "./Dice.module.css";
 import { useDispatch } from "react-redux";
 import { snakesAndLadderActions } from "../store/gameSlices";
 import gameSelectors from "../store/gameSelectors";
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
+import Lottie from 'lottie-web';
+import data from './lottie.json';
+import data1 from './lottie1.json';
+
 function Dice() {
   const dispatch = useDispatch();
   const playerDiceData = gameSelectors.getDicePlayerNumber();
@@ -59,7 +63,31 @@ function Dice() {
     }
     previousDice.current = value;
   }
+  const lottieRef = useRef<HTMLDivElement>(null); 
+  const lottieRef1 = useRef<HTMLDivElement>(null); 
+  useEffect(()=>{
+      if(!lottieRef.current || !lottieRef1.current){
+          return;
+      }
+      let anim = Lottie.loadAnimation({
+          container: lottieRef.current,
+          renderer: 'svg',
+          loop: true,
+          animationData: data
+        });
+        let anim1= Lottie.loadAnimation({
+          container: lottieRef1.current,
+          renderer: 'svg',
+          loop: true,
+          animationData: data1
+        });
+        return()=> anim.destroy();
+  },[]);
+
   return (
+    <>
+    <div ref = {lottieRef} className={styles.lottie}></div>
+    <div ref = {lottieRef1} className={styles.lottie}></div>
     <div onClick={rollDice} className={styles.diceParent}>
       <div ref={diceParentRef} className={styles.dice + " " + styles.diceone}>
       {[...Array(sides)].map((_, i) => (
@@ -71,6 +99,7 @@ function Dice() {
         ))}
       </div>
     </div>
-  );
+    </>    
+    );
 }
 export default Dice;
