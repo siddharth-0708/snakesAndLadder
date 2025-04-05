@@ -13,6 +13,12 @@
         width: 100px;
         height: 100px;
     }
+    .lottie1 {
+        position: absolute;
+        width: 500px;
+        height: 500px;
+        left: 50px;
+    }
     .dice {
         position: absolute;
         width: 60px;

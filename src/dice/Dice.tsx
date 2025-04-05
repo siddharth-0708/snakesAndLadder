@@ -5,7 +5,7 @@ import gameSelectors from "../store/gameSelectors";
 import { useRef, useEffect } from "react";
 import Lottie from 'lottie-web';
 import data from './lottie.json';
-import data1 from './lottie1.json';
+import data1 from './data.json';
 
 function Dice() {
   const dispatch = useDispatch();
@@ -87,7 +87,7 @@ function Dice() {
   return (
     <>
     <div ref = {lottieRef} className={styles.lottie}></div>
-    <div ref = {lottieRef1} className={styles.lottie}></div>
+    <div ref = {lottieRef1} className={styles.lottie1}></div>
     <div onClick={rollDice} className={styles.diceParent}>
       <div ref={diceParentRef} className={styles.dice + " " + styles.diceone}>
       {[...Array(sides)].map((_, i) => (
